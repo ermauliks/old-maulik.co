@@ -1,0 +1,219 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Test - Maulik Suchak - Front End Developer</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <script src="js/jquery-latest.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/jquery.tablesorter.js"></script>
+    <link href="css/SortingTheme/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script type="text/javascript" src="js/jquery.jcarousel.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="skins/tango/skin.css" />
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $("#ageTable").tablesorter();
+
+            getContent('car-htmls/distinguished.htm');
+
+            $('a#distinguished').bind('click', function (e) {
+                getContent('car-htmls/distinguished.htm');
+
+            });
+            $('a#mobilesolution').bind('click', function (e) {
+                getContent('car-htmls/mobile.htm');
+            });
+
+            $('a#html5canvas').bind('click', function (e) {
+                getContent('car-htmls/html5.html');
+            });
+
+            $('a#domainexpertise').bind('click', function (e) {
+                getContent('car-htmls/domain.htm');
+            });
+            
+        });
+
+        function validateForm() {
+            //firstname
+            var FirstName = document.forms["myForm"]["fname"];
+            if (FirstName.value == null || FirstName.value == "") {
+                FirstName.focus();
+                alert("First name must be filled out");
+                return false;
+            }
+
+            //lastname
+            var LastName = document.forms["myForm"]["lname"].value;
+            if (LastName == null || LastName == "") {
+                alert("Last Name must be filled out");
+                return false;
+            }
+
+            //email
+            var Email = document.forms["myForm"]["email"].value;
+            var atpos = Email.indexOf("@");
+            var dotpos = Email.lastIndexOf(".");
+            if (Email == null || Email == "") {
+                alert("Email must be filled out");
+                return false;
+            }
+            if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= Email.length) {
+                alert("Not a valid e-mail address");
+                return false;
+            }
+
+
+            //confirm email
+            var ConEmail = document.forms["myForm"]["conemail"].value;
+            var atpos = Email.indexOf("@");
+            var dotpos = Email.lastIndexOf(".");
+            if (ConEmail == null || ConEmail == "") {
+                alert("Confirm Email must be filled out");
+                return false;
+            }
+            if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= Email.length) {
+                alert("Not a valid e-mail address");
+                return false;
+            }
+
+            if (Email != ConEmail) {
+                alert("Email and Confimation email is not matched");
+                return false;
+            }
+
+
+            //mobile number
+            var MobileNumber = document.forms["myForm"]["mobile"].value;
+            if (MobileNumber == null || MobileNumber == "") {
+                alert("Mobile must be filled out");
+                return false;
+            }
+        }
+
+        function onlyNumber(e) {
+            var key = window.event ? e.keyCode : e.which;
+            var keychar = String.fromCharCode(key);
+            reg = /\d/;
+            return reg.test(keychar);
+        }
+       
+
+        function getContent(filename) {
+            $.ajax({
+                url: filename,
+                type: 'GET',
+                dataType: 'html',
+                beforeSend: function () {
+                    $('#mycarousel').html('<img src="img/loading.gif" />');
+                },
+                success: function (data, textStatus, xhr) {
+                    $('#mycarousel').html(data);
+                    $('button').click(function () {
+                        $('#form-header').html('Enroll Now');
+                        var text = $('#form-header').html();
+                        text = text + ': [' + this.name.toString() + ']';
+                        $('#form-header').html(text);
+                        document.forms["myForm"]["fname"].focus();
+                    });
+                    //$('#mycarousel').jcarousel();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    $('#mycarousel').html(textStatus);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <img src="img/logo.png" alt="Synchrone Logo" />
+    </header>
+    <section>
+        <aside>
+            <table id="ageTable" class="tablesorter"> 
+                <thead> 
+                        <tr> 
+                            <th>Name</th> 
+                            <th>Age</th> 
+                        </tr> 
+                    </thead> 
+                      <tbody> 
+                        <tr> 
+                            <td>Jennifer</td> 
+                            <td class="align-right">24</td> 
+                        </tr> 
+                        <tr> 
+                            <td>Kate</td> 
+                            <td class="align-right">18</td> 
+                        </tr> 
+                        <tr> 
+                            <td>David</td> 
+                            <td class="align-right">25</td> 
+                        </tr> 
+                        <tr> 
+                            <td>Mark</td> 
+                            <td class="align-right">25</td> 
+                        </tr> 
+                    </tbody> 
+            </table> 
+            <nav>
+                <table class="tablesorter" id="leftNav">
+                    <thead><tr><th>&nbsp;</th></tr></thead>
+                    <tbody>
+                        <tr><td><a href="#" id="distinguished">Distinguished Technology</a></td></tr>
+                        <tr><td><a href="#" id="mobilesolution">Mobile Solution</a></td></tr>
+                        <tr><td><a href="#" id="html5canvas">HTML5 Canvas</a></td></tr>
+                        <tr><td><a href="#" id="domainexpertise">Domain Expertise</a></td></tr>
+                    </tbody>
+                </table>
+            </nav>
+        </aside>
+        <section id="content">
+            <section id="carousel">
+             <div class="program-thumbs">
+                <div id="thumb-holder">
+                        <ul id="mycarousel" class="jcarousel-skin-tango">
+                          <li><img src="img/car-img/distinguished/dist.png" alt=""/><button name="Distinguished Technology Program" id="dist">Entroll Now</button></li>
+                            <li><img src="img/car-img/distinguished/london.png" alt=""/><button name="Internet Week" id="london">Entroll Now</button></li>
+                            <li><img src="img/car-img/distinguished/ms-walk.png" alt=""/><button name="MS - Walk" id="ms-walk">Entroll Now</button></li>
+                            <li><img src="img/car-img/distinguished/dist.png" alt=""/><button name="Distinguished Program" id="ms-walk1">Entroll Now</button></li>
+                        </ul>
+                </div>
+            </div>
+             <div class="thumb-description">
+                <header>SapientNitro: Distinguished Technology Program</header>
+                <section>lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum lorem impsum </section>
+            </div>
+            </section>
+            <header id="form-header">Enroll Now</header>    
+            <section id="form-field">
+                <form name="myForm" onsubmit="return validateForm()" method="post">
+                    <fieldset>
+                          <label>Full Name</label>
+                            <input type="text" name="fname" placeholder="e.g. Maulik" required />
+                            <input type="text" name="lname" placeholder="e.g. Suchak" required />
+                     </fieldset>
+                    <fieldset>
+                        <label>Email Address</label>
+                        <input type="email" name="email" placeholder="example@example.com" required />
+                    </fieldset>
+                    <fieldset>
+                        <label>Confirm Email Address</label>
+                        <input type="email" name="conemail" placeholder="same as above" required />
+                    </fieldset>
+                    <fieldset>
+                        <label>Mobile Number</label>
+                        <input type="tel" onkeypress="return onlyNumber(event);" name="mobile" placeholder="###-###-####" required />
+                        <input type="submit" style="float:right;"/>
+                    </fieldset>
+                </form>
+
+            </section>
+        </section>
+    </section>
+</body>
+</html>
